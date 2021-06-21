@@ -62,6 +62,15 @@ public class CryptoFileSystemProperties extends AbstractMap<String, Object> {
 	static final int DEFAULT_MAX_NAME_LENGTH = Constants.MAX_CIPHERTEXT_NAME_LENGTH;
 
 	/**
+	 * Key identifying whether or not should short file name be left in clear text.
+	 *
+	 * @since 1.9.15-dev
+	 */
+	public static final String PROPERTY_NO_SHORT_NAME_ENCRYPTION = "noShortNameEncryption";
+
+	static final boolean DEFAULT_NO_SHORT_NAME_ENCRYPTION = Constants.DEFAULT_NO_SHORT_NAME_ENCRYPTION;
+
+	/**
 	 * Key identifying the pepper used during key derivation.
 	 * 
 	 * @since 1.3.2
@@ -134,7 +143,8 @@ public class CryptoFileSystemProperties extends AbstractMap<String, Object> {
 				entry(PROPERTY_FILESYSTEM_FLAGS, builder.flags), //
 				entry(PROPERTY_MASTERKEY_FILENAME, builder.masterkeyFilename), //
 				entry(PROPERTY_MAX_PATH_LENGTH, builder.maxPathLength), //
-				entry(PROPERTY_MAX_NAME_LENGTH, builder.maxNameLength) //
+				entry(PROPERTY_MAX_NAME_LENGTH, builder.maxNameLength), //
+				entry(PROPERTY_NO_SHORT_NAME_ENCRYPTION, builder.noShortNameEncryption) //
 		)));
 	}
 
@@ -173,6 +183,10 @@ public class CryptoFileSystemProperties extends AbstractMap<String, Object> {
 	
 	int maxNameLength() {
 		return (int) get(PROPERTY_MAX_NAME_LENGTH);
+	}
+
+	boolean noShortNameEncryption() {
+		return (boolean) get(PROPERTY_NO_SHORT_NAME_ENCRYPTION);
 	}
 
 	@Override
@@ -260,6 +274,7 @@ public class CryptoFileSystemProperties extends AbstractMap<String, Object> {
 		private String masterkeyFilename = DEFAULT_MASTERKEY_FILENAME;
 		private int maxPathLength = DEFAULT_MAX_PATH_LENGTH;
 		private int maxNameLength = DEFAULT_MAX_NAME_LENGTH;
+		private boolean noShortNameEncryption = DEFAULT_NO_SHORT_NAME_ENCRYPTION;
 
 		private Builder() {
 		}
@@ -271,6 +286,7 @@ public class CryptoFileSystemProperties extends AbstractMap<String, Object> {
 			checkedSet(Set.class, PROPERTY_FILESYSTEM_FLAGS, properties, this::withFlags);
 			checkedSet(Integer.class, PROPERTY_MAX_PATH_LENGTH, properties, this::withMaxPathLength);
 			checkedSet(Integer.class, PROPERTY_MAX_NAME_LENGTH, properties, this::withMaxNameLength);
+			checkedSet(Boolean.class, PROPERTY_NO_SHORT_NAME_ENCRYPTION, properties, this::withNoShortNameEncryption);
 		}
 
 		private <T> void checkedSet(Class<T> type, String key, Map<String, ?> properties, Consumer<T> setter) {
@@ -316,6 +332,11 @@ public class CryptoFileSystemProperties extends AbstractMap<String, Object> {
 		 */
 		public Builder withMaxNameLength(int maxNameLength) {
 			this.maxNameLength = maxNameLength;
+			return this;
+		}
+
+		public Builder withNoShortNameEncryption(boolean noShortNameEncryption) {
+			this.noShortNameEncryption = noShortNameEncryption;
 			return this;
 		}
 

@@ -31,4 +31,5 @@ public final class Constants {
 
 	public static final String SEPARATOR = "/";
 
+	public static final boolean DEFAULT_NO_SHORT_NAME_ENCRYPTION = false;
 }

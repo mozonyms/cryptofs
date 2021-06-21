@@ -52,6 +52,7 @@ public class CryptoPathMapper {
 	private final Cache<CryptoPath, CiphertextDirectory> ciphertextDirectories;
 
 	private final CiphertextDirectory rootDirectory;
+	private Boolean noShortNameEncryption = false;
 
 	@Inject
 	CryptoPathMapper(@PathToVault Path pathToVault, Cryptor cryptor, DirectoryIdProvider dirIdProvider, LongFileNameProvider longFileNameProvider) {
@@ -135,8 +136,12 @@ public class CryptoPathMapper {
 		}
 	}
 
+	public void setNoShortNameEncryption(Boolean noShortNameEncryption){
+		this.noShortNameEncryption = noShortNameEncryption;
+	}
+
 	private String getCiphertextFileName(DirIdAndName dirIdAndName) {
-		return cryptor.fileNameCryptor().encryptFilename(BaseEncoding.base64Url(), dirIdAndName.name, dirIdAndName.dirId.getBytes(StandardCharsets.UTF_8)) + Constants.CRYPTOMATOR_FILE_SUFFIX;
+		return cryptor.fileNameCryptor().encryptFilename(BaseEncoding.base64Url(), dirIdAndName.name, this.noShortNameEncryption, dirIdAndName.dirId.getBytes(StandardCharsets.UTF_8)) + Constants.CRYPTOMATOR_FILE_SUFFIX;
 	}
 
 	public void invalidatePathMapping(CryptoPath cleartextPath) {

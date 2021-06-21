@@ -85,7 +85,9 @@ class C9rDecryptor {
 				}
 			}
 		}
-		return Optional.empty();
+		node.cleartextName = StringUtils.removeEnd(node.fullCiphertextFileName, Constants.CRYPTOMATOR_FILE_SUFFIX);
+		node.extractedCiphertext = node.cleartextName;
+		return Optional.of(node);
 	}
 	
 }

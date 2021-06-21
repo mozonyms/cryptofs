@@ -112,6 +112,7 @@ class CryptoFileSystemImpl extends CryptoFileSystem {
 		this.cryptor = cryptor;
 		this.fileStore = fileStore;
 		this.stats = stats;
+		cryptoPathMapper.setNoShortNameEncryption(fileSystemProperties.noShortNameEncryption());
 		this.cryptoPathMapper = cryptoPathMapper;
 		this.cryptoPathFactory = cryptoPathFactory;
 		this.pathMatcherFactory = pathMatcherFactory;
